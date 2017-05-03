@@ -1,0 +1,187 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: Hello World App
+# during dev, should point to your local machine
+host: localhost:10010
+# basePath prefixes all resource paths 
+basePath: /
+# 
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+paths:
+  /getall:
+    # our controller name
+    x-swagger-router-controller: priceCollect
+    get:
+      operationId: getall
+      description: get the prices list
+      # define the type of response for Success "200" and Error
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/GetPricesListResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /past24:
+    # our controller name
+    x-swagger-router-controller: priceCollect
+    get:
+      operationId: getlast24
+      description: get the prices list
+      # define the type of response for Success "200" and Error
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/GetPricesListResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /listofday:
+    # our controller name
+    x-swagger-router-controller: priceCollect
+    get:
+      operationId: getAdaylist
+      description: get the movies list
+      parameters:
+      - name : year
+        description: review request in path
+        in: query
+        required: true
+        type: number
+      - name : month
+        description: review request in path
+        in: query
+        required: true
+        type: number
+      - name : day
+        description: review request in path
+        in: query
+        required: true
+        type: number
+      # define the type of response for Success "200" and Error
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/GetPriceResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /past7:
+    # our controller name
+    x-swagger-router-controller: priceCollect
+    get:
+      operationId: getlast7
+      description: get the prices list
+      # define the type of response for Success "200" and Error
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/GetPricesListResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /past30:
+    # our controller name
+    x-swagger-router-controller: priceCollect
+    get:
+      operationId: getlast30
+      description: get the movies list
+      # define the type of response for Success "200" and Error
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/GetPricesListResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /swagger:
+    x-swagger-pipe: swagger_raw
+# complex objects have schema definitions
+definitions:
+  GetPriceResponse:
+    type: object
+    properties:
+      message:
+        type: string
+      movie:
+        type: object
+        items:
+          $ref: "#/definitions/Price"
+  GetPricesListResponse:
+    properties:
+      movies:
+        type: array
+        items:
+           $ref: "#/definitions/Price"
+  # day:
+  #   type: object
+  #   required:
+  #     - year
+  #     - date
+  #     - day
+  #   properties:
+  #     year:
+  #       type: number
+  #     month:
+  #       type: number
+  #     day:
+  #       type: number
+  Price:
+    type: object
+    required: 
+      - storeNumber
+      - storeName
+      - location
+      - regular
+      - mid
+      - premium
+      - special
+      - store
+    properties:
+      storeNumber:
+        type: number
+      storeName:
+        type: string
+      location:
+        type: string
+      regular:
+        type: number
+      mid:
+        type: number
+      premium:
+        type: number
+      diesel:
+        type: number
+      special:
+        type: string
+      store:
+        type: string
+  ErrorResponse:
+    required: 
+      - message
+    properties:
+      message:
+        type: string
+      
+      
+            
